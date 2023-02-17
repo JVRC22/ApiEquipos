@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CorreoVerificacionJob;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 use function PHPUnit\Framework\isNull;
@@ -61,6 +63,13 @@ class UsersController extends Controller
 
             if($user->save())
             {
+                $url = URL::temporarySignedRoute("auth.enviarCodigo", now()->addDays(1), ["id" => $user->id]);
+
+                CorreoVerificacionJob::dispatch($user, $url)
+                ->delay(now()->addSeconds(10))
+                ->onQueue("correo")
+                ->onConnection("database");
+
                 return $user;
             }
 
