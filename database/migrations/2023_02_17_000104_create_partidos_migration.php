@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('partidos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('local')->references('id')->on('equipos')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('visitante')->references('id')->on('equipos')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('local')->references('id')->on('equipos')->onUpdate('cascade')->onDelete('cascade')->nullable();
+            $table->foreignId('visitante')->references('id')->on('equipos')->onUpdate('cascade')->onDelete('cascade')->nullable();
             $table->date('fecha');
             $table->time('hora');
             $table->timestamps();
