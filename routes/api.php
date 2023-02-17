@@ -15,15 +15,33 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 #Usuarios
-Route::post('/register', [UsersController::class, 'register'])->name('register');
-Route::post('/login', [UsersController::class, 'login'])->name('login');
-Route::post('/logout', [UsersController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
+Route::prefix('')->group(function (){
+    Route::post('/register', [UsersController::class, 'register'])->name('register');
+    Route::post('/login', [UsersController::class, 'login'])->name('login');
+    Route::post('/logout', [UsersController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 
-#Autenticación
-Route::prefix('/auth')->group(function (){
-    Route::get('/enviarCodigo', [AuthController::class, 'enviarCodigo'])->name('auth.enviarCodigo');
-    Route::post('/verificarCodigo', [AuthController::class, 'verificarCodigo'])->name('auth.verificarCodigo');
+    #Autenticación
+    Route::prefix('/auth')->group(function (){
+        Route::get('/enviarCodigo', [AuthController::class, 'enviarCodigo'])->name('auth.enviarCodigo');
+        Route::post('/verificarCodigo', [AuthController::class, 'verificarCodigo'])->name('auth.verificarCodigo');
+    });
+
+    #Funciones de administrador
+    Route::prefix('/admin')->group(function (){
+        Route::get('/', [UsersController::class, 'mostrarUsuarios'])->name('admin.mostrarUsuarios');
+        Route::delete('/{id}', [UsersController::class, 'eliminarUsuario'])->name('admin.eliminarUsuario');
+        Route::put('/{id}', [UsersController::class, 'cambiarRol'])->name('admin.cambiarRol');
+        Route::put('/{id}', [UsersController::class, 'cambiarStatus'])->name('admin.cambiarStatus');
+    });
+
+    #Funciones de usuario y administrador
+    Route::prefix('/user')->group(function (){
+        Route::get('/{id}', [UsersController::class, 'mostrarUsuarioUnico'])->name('user.mostrarUsuarioUnico');
+        Route::put('/{id}', [UsersController::class, 'cambiarNombre'])->name('user.cambiarNombre');
+        Route::put('/{id}', [UsersController::class, 'cambiarPassword'])->name('user.cambiarPassword');
+    });
 });
+
 
 #Partidos
 Route::prefix('/partidos')->group(function (){

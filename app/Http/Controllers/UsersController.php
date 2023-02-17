@@ -218,7 +218,7 @@ class UsersController extends Controller
 
             else
             {
-                $usuario->rol = $request->rol;
+                $usuario->role = $request->role;
 
                 if($usuario->save())
                 {
@@ -344,14 +344,14 @@ class UsersController extends Controller
                 if($usuario->save())
                 {
                     return response()->json([
-                        'message' => 'Cuenta editada'
+                        'message' => 'Cuenta modificada con éxito'
                     ], 200);
                 }
 
                 else
                 {
                     return response()->json([
-                        'message' => 'Error al editar la cuenta'
+                        'message' => 'Error al modificar la cuenta'
                     ], 500);
                 }
             }
@@ -404,14 +404,14 @@ class UsersController extends Controller
                     if($usuario->save())
                     {
                         return response()->json([
-                            'message' => 'Cuenta editada'
+                            'message' => 'Contraseña cambiada correctamente'
                         ], 200);
                     }
 
                     else
                     {
                         return response()->json([
-                            'message' => 'Error al editar la cuenta'
+                            'message' => 'Error al cambiar la contraseña'
                         ], 500);
                     }
                 }
