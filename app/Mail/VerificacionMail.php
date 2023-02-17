@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -12,15 +13,17 @@ use Illuminate\Queue\SerializesModels;
 class VerificacionMail extends Mailable
 {
     use Queueable, SerializesModels;
+    protected $user, $url;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user, $url)
     {
-        //
+        $this->user = $user;
+        $this->url = $url;
     }
 
     /**
@@ -43,7 +46,11 @@ class VerificacionMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'correos.welcome',
+            with: [
+                'user' => $this->user->nombre,
+                'url' => $this->url,
+            ],
         );
     }
 

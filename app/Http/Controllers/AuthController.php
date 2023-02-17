@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -20,12 +21,17 @@ class AuthController extends Controller
         $response = Http::post('https://rest.nexmo.com/sms/json',[
             'from'=>"Equipos Api",
             'text'=>"Codigo de verificacion: $code",
-            'to'=>"52$user->phone",
+            'to'=>"+52$user->phone",
             'api_key'=>"0ff442b0",
             'api_secret'=>"QtZzZW5glUgmiXBv"
         ]);
 
-        return $response;
+        $url = URL::temporarySignedRoute('auth.verificarCodigo', now()->addMinutes(10), ['id' => $user->id]);
+
+        return response()->json([
+            'message' => 'Código enviado',
+            'url' => "$url",
+        ], 200);
     }
 
     public function verificarCodigo(Request $request)
