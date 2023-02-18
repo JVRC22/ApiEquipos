@@ -31,7 +31,7 @@ Route::prefix('')->group(function (){
         Route::get('/', [UsersController::class, 'mostrarUsuarios'])->name('admin.mostrarUsuarios');
         Route::delete('/{id}', [UsersController::class, 'eliminarUsuario'])->name('admin.eliminarUsuario');
         Route::put('/{id}', [UsersController::class, 'cambiarRol'])->name('admin.cambiarRol');
-        Route::put('/{id}', [UsersController::class, 'cambiarStatus'])->name('admin.cambiarStatus');
+        Route::put('/status/{id}', [UsersController::class, 'cambiarStatus'])->name('admin.cambiarStatus');
     });
 
     #Funciones de usuario y administrador
