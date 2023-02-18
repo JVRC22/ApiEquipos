@@ -165,7 +165,7 @@ class JugadoresController extends Controller
         }
     }
 
-    public function elimianr($id)
+    public function eliminar($id)
     {
         $jugador = Jugador::find($id);
 
