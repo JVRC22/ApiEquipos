@@ -205,7 +205,7 @@ class EquiposController extends Controller
         }
     }
 
-    public function mostarUnico($id)
+    public function mostrarUnico($id)
     {
         $equipo = Equipo::find($id);
 
