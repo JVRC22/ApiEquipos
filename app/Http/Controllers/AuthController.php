@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ConfirmacionMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,9 +28,7 @@ class AuthController extends Controller
             'api_secret'=>"QtZzZW5glUgmiXBv"
         ]);
 
-        return response()->json([
-            'message' => 'Código enviado',
-        ], 200);
+        return view('Correos.codigo_enviado');
     }
 
     public function verificarCodigo(Request $request)
@@ -59,6 +59,8 @@ class AuthController extends Controller
             {
                 $user->status = 1;
                 $user->save();
+
+                Mail::to($user->email)->send(new ConfirmacionMail());
 
                 return response()->json([
                     'message' => 'Cuenta verificada',
