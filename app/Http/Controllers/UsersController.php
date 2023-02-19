@@ -63,14 +63,18 @@ class UsersController extends Controller
 
             if($user->save())
             {
-                $url = URL::temporarySignedRoute("auth.enviarCodigo", now()->addDays(1), ["id" => $user->id]);
+                $enviarCodigoUrl = URL::temporarySignedRoute("auth.enviarCodigo", now()->addHours(1), ["id" => $user->id]);
+                $verificarCodigoUrl = URL::temporarySignedRoute("auth.verificarCodigo", now()->addHours(1), ["id" => $user->id]);
 
-                CorreoVerificacionJob::dispatch($user, $url)
+                CorreoVerificacionJob::dispatch($user, $enviarCodigoUrl)
                 ->delay(now()->addSeconds(10))
                 ->onQueue("correo")
                 ->onConnection("database");
 
-                return $user;
+                return response()->json([
+                    'user' => $user,
+                    'url' => "$verificarCodigoUrl"
+                ], 201);
             }
 
             else

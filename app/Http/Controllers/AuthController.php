@@ -18,7 +18,7 @@ class AuthController extends Controller
         $user->code = $code;
         $user->save();
 
-        $response = Http::post('https://rest.nexmo.com/sms/json',[
+        Http::post('https://rest.nexmo.com/sms/json',[
             'from'=>"Equipos Api",
             'text'=>"Codigo de verificacion: $code",
             'to'=>"+52$user->phone",
@@ -26,16 +26,15 @@ class AuthController extends Controller
             'api_secret'=>"QtZzZW5glUgmiXBv"
         ]);
 
-        $url = URL::temporarySignedRoute('auth.verificarCodigo', now()->addMinutes(10), ['id' => $user->id]);
-
         return response()->json([
             'message' => 'Código enviado',
-            'url' => "$url",
         ], 200);
     }
 
     public function verificarCodigo(Request $request)
     {
+        $user = User::find($request->id);
+        $code = $user->code;
         $validacion = Validator::make(
             $request->all(),
             [
@@ -56,9 +55,6 @@ class AuthController extends Controller
 
         else
         {
-            $user = User::find($request->id);
-            $code = $user->code;
-
             if($code == $request->code)
             {
                 $user->status = 1;

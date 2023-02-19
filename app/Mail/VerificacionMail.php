@@ -13,16 +13,15 @@ use Illuminate\Queue\SerializesModels;
 class VerificacionMail extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $user, $url;
+    protected $url;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, $url)
+    public function __construct($url)
     {
-        $this->user = $user;
         $this->url = $url;
     }
 
@@ -48,7 +47,6 @@ class VerificacionMail extends Mailable
         return new Content(
             view: 'correos.welcome',
             with: [
-                'user' => $this->user->nombre,
                 'url' => $this->url,
             ],
         );

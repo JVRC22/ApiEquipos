@@ -35,6 +35,6 @@ class CorreoVerificacionJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->user->email)->send(new VerificacionMail($this->user, $this->url));
+        Mail::to($this->user->email)->send(new VerificacionMail($this->url));
     }
 }
