@@ -62,12 +62,14 @@ Route::prefix('/jugadores')->middleware('auth:sanctum')->group(function (){
 });
 
 #Equipos
-Route::prefix('/equipos')->middleware('auth:sanctum')->group(function (){
+Route::prefix('/equipos')->group(function (){
     Route::post('/', [EquiposController::class, 'agregar'])->name('equipos.agregar');
     Route::put('/{id}', [EquiposController::class, 'editar'])->name('equipos.editar')->where('id', '[0-9]+');
     Route::delete('/{id}', [EquiposController::class, 'eliminar'])->name('equipos.eliminar')->where('id', '[0-9]+');
     Route::get('/', [EquiposController::class, 'mostrar'])->name('equipos.mostrar');
     Route::get('/{id}', [EquiposController::class, 'mostrarUnico'])->name('equipos.mostrarUnico')->where('id', '[0-9]+');
+    Route::get('/equipo/{id}', [EquiposController::class, 'mostrarJugadoresCiertoEquipos'])->name('equipos.mostrarJugadoresCiertoEquipos')->where('id', '[0-9]+');
+
 });
 
 #Estados
