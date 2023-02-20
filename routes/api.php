@@ -30,12 +30,12 @@ Route::prefix('')->group(function (){
     Route::prefix('/admin')->middleware('auth:sanctum')->group(function (){
         Route::get('/', [UsersController::class, 'mostrarUsuarios'])->name('admin.mostrarUsuarios');
         Route::delete('/{id}', [UsersController::class, 'eliminarUsuario'])->name('admin.eliminarUsuario');
-        Route::put('/{id}', [UsersController::class, 'cambiarRol'])->name('admin.cambiarRol');
+        Route::put('/rol/{id}', [UsersController::class, 'cambiarRol'])->name('admin.cambiarRol');
         Route::put('/status/{id}', [UsersController::class, 'cambiarStatus'])->name('admin.cambiarStatus');
     });
 
     #Funciones de usuario y administrador
-    Route::prefix('/user')->middleware('auth.sanctum')->group(function (){
+    Route::prefix('/user')->group(function (){
         Route::get('/{id}', [UsersController::class, 'mostrarUsuarioUnico'])->name('user.mostrarUsuarioUnico');
         Route::put('/{id}', [UsersController::class, 'cambiarNombre'])->name('user.cambiarNombre');
         Route::put('/{id}', [UsersController::class, 'cambiarPassword'])->name('user.cambiarPassword');

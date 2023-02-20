@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('equipos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 35)->unique();
+            $table->string('nombre', 35);
             $table->bigInteger('division');
             $table->bigInteger('campeonatos');
             $table->foreignId('estado')->references('id')->on('estados')->onUpdate('cascade')->onDelete('cascade')->nullable();
