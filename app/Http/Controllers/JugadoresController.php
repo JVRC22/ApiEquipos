@@ -196,7 +196,10 @@ class JugadoresController extends Controller
 
     public function mostrar()
     {
-        $jugadores = Jugador::all();
+        $jugadores=Jugador::Select("jugadores.id","jugadores.nombre","jugadores.ap_paterno","jugadores.ap_materno","jugadores.sexo","jugadores.f_nac",
+        "equipos.nombre as equipo")
+        ->join("equipos","jugadores.equipo" ,"=" ,"equipos.id") 
+         ->get();
 
         if ($jugadores) 
         {

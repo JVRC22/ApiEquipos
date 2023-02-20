@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipo;
+use App\Models\Estado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -190,7 +191,13 @@ class EquiposController extends Controller
 
     public function mostrar()
     {
-        $equipos = Equipo::all();
+
+        $equipos=Estado::Select("equipos.id","equipos.nombre","equipos.division","equipos.campeonatos",
+        "estados.nombre as estado",
+        "propietarios.nombre as propietario")
+        ->join("equipos","estados.id" ,"=" ,"equipos.estado")
+        ->join("propietarios","propietarios.id" ,"=" ,"equipos.propietario") 
+         ->get();
 
         if ($equipos) 
         {
