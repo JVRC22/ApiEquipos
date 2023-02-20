@@ -18,6 +18,10 @@ class RolesSeeder extends Seeder
         ]);
 
         Rol::create([
+            'nombre' => 'Moderador'
+        ]);
+
+        Rol::create([
             'nombre' => 'Usuario'
         ]);
     }
