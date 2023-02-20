@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipo;
+use App\Models\Jugador;
 use App\Models\Estado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -227,5 +228,26 @@ class EquiposController extends Controller
                 'message' => 'No se encontró el equipo'
             ], 404);
         }
+    }
+
+    public function mostrarJugadoresCiertoEquipos($id)
+    {
+        $equipos=Equipo::find($id);
+        $jugadores=Jugador::Select("jugadores.id","jugadores.nombre","jugadores.ap_paterno","jugadores.ap_materno","jugadores.sexo","jugadores.f_nac")
+        ->join("equipos","equipos.id","=","jugadores.equipo")
+        ->where('jugadores.equipo',"=",$id)
+        ->get();
+        if ($jugadores) 
+        {
+            return $jugadores;
+        } 
+        
+        else 
+        {
+            return response()->json([
+                'message' => 'No se encontró el equipo'
+            ], 404);
+        }
+        
     }
 }
