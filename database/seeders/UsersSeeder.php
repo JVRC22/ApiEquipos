@@ -22,5 +22,14 @@ class UsersSeeder extends Seeder
             'role' => 1,
             'status' => 1,
         ]);
+
+        User::create([
+            'name' => 'Usuario',
+            'email' => 'javier.res220704@gmail.com',
+            'password' => Hash::make('J22r07c04'),
+            'phone' => '8713814026',
+            'role' => 2,
+            'status' => 1,
+        ]);
     }
 }

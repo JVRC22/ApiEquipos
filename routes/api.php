@@ -29,13 +29,13 @@ Route::prefix('')->group(function (){
     #Funciones de administrador
     Route::prefix('/admin')->middleware('auth:sanctum')->group(function (){
         Route::get('/', [UsersController::class, 'mostrarUsuarios'])->name('admin.mostrarUsuarios');
-        Route::delete('/{id}', [UsersController::class, 'eliminarUsuario'])->name('admin.eliminarUsuario');
         Route::put('/rol/{id}', [UsersController::class, 'cambiarRol'])->name('admin.cambiarRol');
         Route::put('/status/{id}', [UsersController::class, 'cambiarStatus'])->name('admin.cambiarStatus');
+        Route::delete('/{id}', [UsersController::class, 'eliminarUsuario'])->name('admin.eliminarUsuario');
     });
 
     #Funciones de usuario y administrador
-    Route::prefix('/user')->group(function (){
+    Route::prefix('/user')->middleware('auth:sanctum')->group(function (){
         Route::get('/{id}', [UsersController::class, 'mostrarUsuarioUnico'])->name('user.mostrarUsuarioUnico');
         Route::put('/{id}', [UsersController::class, 'cambiarNombre'])->name('user.cambiarNombre');
         Route::put('/{id}', [UsersController::class, 'cambiarPassword'])->name('user.cambiarPassword');
@@ -62,14 +62,13 @@ Route::prefix('/jugadores')->middleware('auth:sanctum')->group(function (){
 });
 
 #Equipos
-Route::prefix('/equipos')->group(function (){
+Route::prefix('/equipos')->middleware('auth:sanctum')->group(function (){
     Route::post('/', [EquiposController::class, 'agregar'])->name('equipos.agregar');
     Route::put('/{id}', [EquiposController::class, 'editar'])->name('equipos.editar')->where('id', '[0-9]+');
     Route::delete('/{id}', [EquiposController::class, 'eliminar'])->name('equipos.eliminar')->where('id', '[0-9]+');
     Route::get('/', [EquiposController::class, 'mostrar'])->name('equipos.mostrar');
     Route::get('/{id}', [EquiposController::class, 'mostrarUnico'])->name('equipos.mostrarUnico')->where('id', '[0-9]+');
     Route::get('/equipo/{id}', [EquiposController::class, 'mostrarJugadoresCiertoEquipos'])->name('equipos.mostrarJugadoresCiertoEquipos')->where('id', '[0-9]+');
-
 });
 
 #Estados

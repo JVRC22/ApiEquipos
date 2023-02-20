@@ -233,13 +233,25 @@ class EquiposController extends Controller
     public function mostrarJugadoresCiertoEquipos($id)
     {
         $equipos=Equipo::find($id);
-        $jugadores=Jugador::Select("jugadores.id","jugadores.nombre","jugadores.ap_paterno","jugadores.ap_materno","jugadores.sexo","jugadores.f_nac")
-        ->join("equipos","equipos.id","=","jugadores.equipo")
-        ->where('jugadores.equipo',"=",$id)
-        ->get();
-        if ($jugadores) 
+
+        if ($equipos) 
         {
-            return $jugadores;
+            $jugadores=Jugador::Select("jugadores.id","jugadores.nombre","jugadores.ap_paterno","jugadores.ap_materno","jugadores.sexo","jugadores.f_nac", "equipos.nombre as equipo")
+            ->join("equipos","equipos.id","=","jugadores.equipo")
+            ->where('jugadores.equipo',"=",$id)
+            ->get();
+
+            if ($jugadores) 
+            {
+                return $jugadores;
+            } 
+            
+            else
+            {
+                return response()->json([
+                    'message' => 'No se encontraron jugadores'
+                ], 404);
+            }
         } 
         
         else 
@@ -248,6 +260,5 @@ class EquiposController extends Controller
                 'message' => 'No se encontró el equipo'
             ], 404);
         }
-        
     }
 }
