@@ -6,6 +6,7 @@ use App\Models\Equipo;
 use App\Models\Jugador;
 use App\Models\Estado;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 
 class EquiposController extends Controller
@@ -255,6 +256,36 @@ class EquiposController extends Controller
         } 
         
         else 
+        {
+            return response()->json([
+                'message' => 'No se encontró el equipo'
+            ], 404);
+        }
+    }
+
+    public function cambiarEquipoJugadores(Request $request, $id)
+    {
+        $equipo = Equipo::find($id);
+
+        if($equipo)
+        {
+            foreach($request->jugadores as $jugador)
+            {
+                $player = Jugador::find($jugador);
+
+                if($player)
+                {
+                    $player->equipo = $id;
+                    $player->save();
+                }
+            }
+
+            return response()->json([
+                'message' => 'Jugadores cambiados'
+            ], 200);
+        }
+
+        else
         {
             return response()->json([
                 'message' => 'No se encontró el equipo'
