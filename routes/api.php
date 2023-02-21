@@ -42,50 +42,54 @@ Route::prefix('')->group(function (){
     });
 });
 
-
 #Partidos
 Route::prefix('/partidos')->middleware('auth:sanctum')->group(function (){
+    Route::get('/', [PartidosController::class, 'mostrar'])->name('partidos.mostrar')->middleware('rol: 1,2,3')->middleware('status');
     Route::post('/', [PartidosController::class, 'agregar'])->name('partidos.agregar')->middleware('rol: 1,2,3')->middleware('status');
+
     Route::put('/{id}', [PartidosController::class, 'editar'])->name('partidos.editar')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
     Route::delete('/{id}', [PartidosController::class, 'eliminar'])->name('partidos.eliminar')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
-    Route::get('/', [PartidosController::class, 'mostrar'])->name('partidos.mostrar')->middleware('rol: 1,2,3')->middleware('status');
     Route::get('/{id}', [PartidosController::class, 'mostrarUnico'])->name('partidos.mostrarUnico')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
 });
 
 #Jugadores
 Route::prefix('/jugadores')->middleware('auth:sanctum')->group(function (){
+    Route::get('/', [JugadoresController::class, 'mostrar'])->name('jugadores.mostrar')->middleware('rol: 1,2,3')->middleware('status');
     Route::post('/', [JugadoresController::class, 'agregar'])->name('jugadores.agregar')->middleware('rol: 1,2,3')->middleware('status');
+
     Route::put('/{id}', [JugadoresController::class, 'editar'])->name('jugadores.editar')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
     Route::delete('/{id}', [JugadoresController::class, 'eliminar'])->name('jugadores.eliminar')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
-    Route::get('/', [JugadoresController::class, 'mostrar'])->name('jugadores.mostrar')->middleware('rol: 1,2,3')->middleware('status');
     Route::get('/{id}', [JugadoresController::class, 'mostrarUnico'])->name('jugadores.mostrarUnico')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
 });
 
 #Equipos
 Route::prefix('/equipos')->middleware('auth:sanctum')->group(function (){
+    Route::get('/', [EquiposController::class, 'mostrar'])->name('equipos.mostrar')->middleware('rol: 1,2,3')->middleware('status');
     Route::post('/', [EquiposController::class, 'agregar'])->name('equipos.agregar')->middleware('rol: 1,2,3')->middleware('status');
+    Route::get('/equipo/{id}', [EquiposController::class, 'mostrarJugadoresCiertoEquipos'])->name('equipos.mostrarJugadoresCiertoEquipos')->where('id', '[0-9]+')->middleware('rol: 1,2,3')->middleware('status');
+
     Route::put('/{id}', [EquiposController::class, 'editar'])->name('equipos.editar')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
     Route::delete('/{id}', [EquiposController::class, 'eliminar'])->name('equipos.eliminar')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
-    Route::get('/', [EquiposController::class, 'mostrar'])->name('equipos.mostrar')->middleware('rol: 1,2,3')->middleware('status');
     Route::get('/{id}', [EquiposController::class, 'mostrarUnico'])->name('equipos.mostrarUnico')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
-    Route::get('/equipo/{id}', [EquiposController::class, 'mostrarJugadoresCiertoEquipos'])->name('equipos.mostrarJugadoresCiertoEquipos')->where('id', '[0-9]+')->middleware('rol: 1,2,3')->middleware('status');
     Route::put('/jugadores/{id}', [EquiposController::class, 'cambiarEquipoJugadores'])->name('equipos.cambiarEquipoJugadores')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
 });
 
 #Estados
 Route::prefix('/estados')->middleware('auth:sanctum')->group(function (){
+    Route::get('/', [EstadosController::class, 'mostrar'])->name('estados.mostrar')->middleware('rol: 1,2,3')->middleware('status');
     Route::post('/', [EstadosController::class, 'agregar'])->name('estados.agregar')->middleware('rol: 1,2,3')->middleware('status');
+
     Route::put('/{id}', [EstadosController::class, 'editar'])->name('estados.editar')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
     Route::delete('/{id}', [EstadosController::class, 'eliminar'])->name('estados.eliminar')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
-    Route::get('/', [EstadosController::class, 'mostrar'])->name('estados.mostrar')->middleware('rol: 1,2,3')->middleware('status');
     Route::get('/{id}', [EstadosController::class, 'mostrarUnico'])->name('estados.mostrarUnico')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
 });
 
 #Propietarios
 Route::prefix('/propietarios')->middleware('auth:sanctum')->group(function (){
+    Route::get('/', [PropietariosController::class, 'mostrar'])->name('propietarios.mostrar')->middleware('rol: 1,2,3')->middleware('status');
     Route::post('/', [PropietariosController::class, 'agregar'])->name('propietarios.agregar')->middleware('rol: 1,2,3')->middleware('status');
+    
     Route::put('/{id}', [PropietariosController::class, 'editar'])->name('propietarios.editar')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
     Route::delete('/{id}', [PropietariosController::class, 'eliminar'])->name('propietarios.eliminar')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
-    Route::get('/', [PropietariosController::class, 'mostrar'])->name('propietarios.mostrar')->middleware('rol: 1,2,3')->middleware('status');
     Route::get('/{id}', [PropietariosController::class, 'mostrarUnico'])->name('propietarios.mostrarUnico')->where('id', '[0-9]+')->middleware('rol: 1,2')->middleware('status');
 });

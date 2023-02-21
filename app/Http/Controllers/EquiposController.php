@@ -198,7 +198,8 @@ class EquiposController extends Controller
         "estados.nombre as estado",
         "propietarios.nombre as propietario")
         ->join("equipos","estados.id" ,"=" ,"equipos.estado")
-        ->join("propietarios","propietarios.id" ,"=" ,"equipos.propietario") 
+        ->join("propietarios","propietarios.id" ,"=" ,"equipos.propietario")
+        ->orderBy("equipos.id")
          ->get();
 
         if ($equipos) 
