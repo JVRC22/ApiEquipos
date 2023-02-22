@@ -23,13 +23,13 @@ class UsersSeeder extends Seeder
             'status' => 1,
         ]);
 
-        User::create([
+        /*User::create([
             'name' => 'JVRC',
             'email' => 'javier.res220704@gmail.com',
             'password' => Hash::make('J22r07c04'),
             'phone' => '8713814026',
             'role' => 2,
             'status' => 1,
-        ]);
+        ]);*/
     }
 }

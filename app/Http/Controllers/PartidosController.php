@@ -173,18 +173,14 @@ class PartidosController extends Controller
 
     public function mostrar()
     {
-            /* SELECT C1.id,C1.local,equipos.nombre as visitante,C1.fecha,C1.hora from
-
-        (SELECT partidos.id,equipos.nombre as local,partidos.visitante,partidos.fecha,partidos.hora from partidos inner join equipos
-        on equipos.id=partidos.local) AS C1 inner join equipos
-                on equipos.id = C1.visitante*/
         $partidos1 = Partido::Select("partidos.id","equipos.nombre as local","partidos.visitante","partidos.fecha","partidos.hora")
         ->join("equipos","equipos.id" ,"=" ,"partidos.local");
 
         $partidos=Equipo::Select("C1.id","C1.local","equipos.nombre as visitante","C1.fecha","C1.hora")
         ->joinSub($partidos1,'C1',function (JoinClause $join){
             $join->on('equipos.id','=','C1.visitante');
-        })->get();
+        })->orderBy('id')
+        ->get();
         
         if ($partidos)
         {

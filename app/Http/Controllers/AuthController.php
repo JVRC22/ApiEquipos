@@ -2,9 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\Exceptions\JWTException;
+
+use function hash_equals;
+
 use App\Mail\ConfirmacionMail;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
@@ -73,6 +82,16 @@ class AuthController extends Controller
                     'message' => 'Código incorrecto',
                 ], 400);
             }
+        }
+    }
+
+    public function verificarToken(Request $request)
+    {
+        $user = $request->user();
+        
+        if($user)
+        {
+            return $user->id;
         }
     }
 }

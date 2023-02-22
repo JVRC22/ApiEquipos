@@ -24,6 +24,7 @@ Route::prefix('')->group(function (){
     Route::prefix('/auth')->group(function (){
         Route::get('/enviarCodigo', [AuthController::class, 'enviarCodigo'])->name('auth.enviarCodigo');
         Route::post('/verificarCodigo', [AuthController::class, 'verificarCodigo'])->name('auth.verificarCodigo');
+        Route::post('/verificarToken', [AuthController::class, 'verificarToken'])->name('auth.verificarToken')->middleware('auth:sanctum');
     });
 
     #Funciones de administrador
