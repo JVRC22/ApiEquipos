@@ -91,7 +91,12 @@ class AuthController extends Controller
         
         if($user)
         {
-            return $user->id;
+            return response()->json([
+                'message' => 'Token válido',
+                'id' => $user->id,
+                'role' => $user->role,
+                'status' => $user->status,
+            ], 200);
         }
     }
 }

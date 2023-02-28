@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('ap_materno', 20);
             $table->char('sexo');
             $table->date('f_nac');
-            $table->foreignId('equipo')->references('id')->on('equipos')->onDelete('cascade')->onUpdate('cascade')->nullable();
+            $table->foreignId('equipo')->nullable()->references('id')->on('equipos')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

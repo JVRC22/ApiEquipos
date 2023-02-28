@@ -293,4 +293,34 @@ class EquiposController extends Controller
             ], 404);
         }
     }
+
+    public function eliminarJugadoresEquipo(Request $request, $id)
+    {
+        $equipo = Equipo::find($id);
+
+        if($equipo)
+        {
+            foreach($request->jugadores as $jugador)
+            {
+                $player = Jugador::find($jugador);
+
+                if($player)
+                {
+                    $player->equipo = null;
+                    $player->save();
+                }
+            }
+
+            return response()->json([
+                'message' => 'Jugadores eliminados'
+            ], 200);
+        }
+
+        else
+        {
+            return response()->json([
+                'message' => 'No se encontró el equipo'
+            ], 404);
+        }
+    }
 }
