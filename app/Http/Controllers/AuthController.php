@@ -40,6 +40,30 @@ class AuthController extends Controller
         return view('Correos.codigo_enviado');
     }
 
+    public function reenviarCodigo($id)
+    {
+        $verificarCodigoUrl = URL::temporarySignedRoute("auth.verificarCodigo", now()->addHours(1), ["id" => $id]);
+
+        $code = rand(1000, 9999);
+
+        $user = User::find($id);
+        $user->code = $code;
+        $user->save();
+
+        Http::post('https://rest.nexmo.com/sms/json',[
+            'from'=>"Equipos Api",
+            'text'=>"Codigo de verificacion: $code",
+            'to'=>"+52$user->phone",
+            'api_key'=>"0ff442b0",
+            'api_secret'=>"QtZzZW5glUgmiXBv"
+        ]);
+
+        return response()->json([
+            'message' => 'Código reenviado',
+            'url' => $verificarCodigoUrl,
+        ], 200);
+    }
+
     public function verificarCodigo(Request $request)
     {
         $user = User::find($request->id);

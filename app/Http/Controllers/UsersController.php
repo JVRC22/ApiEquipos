@@ -73,6 +73,7 @@ class UsersController extends Controller
 
                 return response()->json([
                     'user' => $user,
+                    'id' => $user->id,
                     'url' => "$verificarCodigoUrl"
                 ], 201);
             }
